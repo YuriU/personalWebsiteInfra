@@ -28,3 +28,7 @@ resource "aws_s3_bucket_policy" "web_site_bucket_policy" {
 }
 POLICY
 }
+
+output "url" {
+  value = "${aws_s3_bucket.web_site_bucket.website_endpoint}"
+}
