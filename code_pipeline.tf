@@ -1,5 +1,5 @@
 resource "aws_s3_bucket" "codepipeline_artifacts" {
-  bucket = "jerryhire8-personal-website-codepipeline-artifacts"
+  bucket = "${var.project_name}-codepipeline-artifacts"
   acl    = "private",
   
   force_destroy = true
