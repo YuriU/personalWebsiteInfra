@@ -13,7 +13,7 @@ resource "aws_route53_record" "cert_validation" {
   type     = "${aws_acm_certificate.web_site_certificate.domain_validation_options.0.resource_record_type}"
   zone_id  = "${aws_route53_zone.web_site_zone.zone_id}"
   records  = ["${aws_acm_certificate.web_site_certificate.domain_validation_options.0.resource_record_value}"]
-  ttl      = 60
+  ttl      = 300
 }
 resource "aws_route53_record" "www_cert_validation" {
   //provider = "aws.certificateEligibleRegion"
@@ -21,7 +21,7 @@ resource "aws_route53_record" "www_cert_validation" {
   type     = "${aws_acm_certificate.web_site_certificate.domain_validation_options.1.resource_record_type}"
   zone_id  = "${aws_route53_zone.web_site_zone.zone_id}"
   records  = ["${aws_acm_certificate.web_site_certificate.domain_validation_options.1.resource_record_value}"]
-  ttl      = 60
+  ttl      = 300
 }
 
 

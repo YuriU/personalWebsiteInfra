@@ -4,6 +4,7 @@ resource "aws_route53_zone" "web_site_zone" {
 }
 
 
+/*
 resource "aws_route53_record" "record_direct" {
   zone_id = "${aws_route53_zone.web_site_zone.zone_id}"
   name    = "${var.project_name}"
@@ -26,7 +27,7 @@ resource "aws_route53_record" "record_www" {
       zone_id = "${aws_s3_bucket.www_web_site_bucket.hosted_zone_id}"
       evaluate_target_health = false
   }
-}
+}*/
 
 
 output "Nameservers" {
