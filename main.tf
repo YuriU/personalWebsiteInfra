@@ -1,4 +1,12 @@
+# Default instance of provider
 provider "aws" {
+}
+
+# Region where certificates must be created. 
+# CloudFront see with certificates created in N.Virginia region only
+provider "aws" {
+  region = "us-east-1"
+  alias = "certificateEligibleRegion"
 }
 
 terraform {
