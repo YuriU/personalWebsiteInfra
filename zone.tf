@@ -4,15 +4,15 @@ resource "aws_route53_zone" "web_site_zone" {
 }
 
 
-/*
+
 resource "aws_route53_record" "record_direct" {
   zone_id = "${aws_route53_zone.web_site_zone.zone_id}"
   name    = "${var.project_name}"
   type    = "A"
 
   alias {
-      name = "${aws_s3_bucket.web_site_bucket.website_domain}"
-      zone_id = "${aws_s3_bucket.web_site_bucket.hosted_zone_id}"
+      name = "${aws_cloudfront_distribution.www_distribution.domain_name}"
+      zone_id = "${aws_cloudfront_distribution.www_distribution.hosted_zone_id}"
       evaluate_target_health = false
   }
 }
@@ -23,11 +23,11 @@ resource "aws_route53_record" "record_www" {
   type    = "A"
 
   alias {
-      name = "${aws_s3_bucket.www_web_site_bucket.website_domain}"
-      zone_id = "${aws_s3_bucket.www_web_site_bucket.hosted_zone_id}"
+      name = "${aws_cloudfront_distribution.www_distribution.domain_name}"
+      zone_id = "${aws_cloudfront_distribution.www_distribution.hosted_zone_id}"
       evaluate_target_health = false
   }
-}*/
+}
 
 
 output "Nameservers" {
