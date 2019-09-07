@@ -16,7 +16,3 @@ variable "codepipeline_github_repository_branch" {
 variable "codepipeline_github_token" {
     description = "Token to Github repository"
 }
-
-variable "s3_background_bucket" {
-    description = "S3 Bucket for infrastructure background"
-}

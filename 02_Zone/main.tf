@@ -8,7 +8,7 @@ terraform {
     # The actions to do are calculated from a diff of current infra and backend state
     # Is read on the very early stage, so using variables are not allowed
     backend "s3" {
-        key = "personalWebsite_Zone/state.tfstate"
+        key = "Website_Zone/state.tfstate"
     }
 }
 

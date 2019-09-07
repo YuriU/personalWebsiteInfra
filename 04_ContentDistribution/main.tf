@@ -15,25 +15,22 @@ terraform {
     # The actions to do are calculated from a diff of current infra and backend state
     # Is read on the very early stage, so using variables are not allowed
     backend "s3" {
-        bucket = "jerryhire8test1-terraform-state-storage-bucket"
-        key = "personalWebsite_ContentDistribution/state.tfstate"
-        region = "eu-central-1"
-        dynamodb_table = "personalWebsite_deploy_lock"
+        key = "Website_ContentDistribution/state.tfstate"
     }
 }
 
 data "aws_s3_bucket" "web_site_bucket" {
-  bucket = "${var.project_name}"
+  bucket = "${var.website_name}"
 }
 
 data "aws_acm_certificate" "web_site_certificate" {
   provider = "aws.certificateEligibleRegion"
-  domain   = "${var.project_name}"
+  domain   = "${var.website_name}"
   statuses = ["ISSUED"]
 }
 
 data "aws_route53_zone" "web_site_zone" {
-  name         = "${var.project_name}"
+  name         = "${var.website_name}"
   private_zone = false
 }
 
@@ -50,7 +47,7 @@ resource "aws_cloudfront_distribution" "www_distribution" {
 
     domain_name = "${data.aws_s3_bucket.web_site_bucket.website_endpoint}"
     
-    origin_id   = "S3-${var.project_name}"
+    origin_id   = "S3-${var.website_name}"
   }
 
   enabled             = true
@@ -62,7 +59,7 @@ resource "aws_cloudfront_distribution" "www_distribution" {
     allowed_methods        = ["GET", "HEAD"]
     cached_methods         = ["GET", "HEAD"]
 
-    target_origin_id       = "S3-${var.project_name}"
+    target_origin_id       = "S3-${var.website_name}"
     min_ttl                = 0
     default_ttl            = 86400
     max_ttl                = 31536000
@@ -76,7 +73,7 @@ resource "aws_cloudfront_distribution" "www_distribution" {
   }
 
   # Aliases to be served
-  aliases = ["${var.project_name}", "www.${var.project_name}"]
+  aliases = ["${var.website_name}", "www.${var.website_name}"]
 
   # USA, Canada and Europe
   price_class = "PriceClass_100"
@@ -87,7 +84,7 @@ resource "aws_cloudfront_distribution" "www_distribution" {
     }
   }
 
-  // Here's where our certificate is loaded in!
+  # Here's where our certificate is loaded in!
   viewer_certificate {
     acm_certificate_arn = "${data.aws_acm_certificate.web_site_certificate.arn}"
     ssl_support_method  = "sni-only"
@@ -96,7 +93,7 @@ resource "aws_cloudfront_distribution" "www_distribution" {
 
 resource "aws_route53_record" "record_direct" {
   zone_id = "${data.aws_route53_zone.web_site_zone.zone_id}"
-  name    = "${var.project_name}"
+  name    = "${var.website_name}"
   type    = "A"
 
   alias {
@@ -108,7 +105,7 @@ resource "aws_route53_record" "record_direct" {
 
 resource "aws_route53_record" "record_www" {
   zone_id = "${data.aws_route53_zone.web_site_zone.zone_id}"
-  name    = "www.${var.project_name}"
+  name    = "www.${var.website_name}"
   type    = "A"
 
   alias {

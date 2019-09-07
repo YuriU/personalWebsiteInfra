@@ -8,7 +8,6 @@ terraform {
     # The actions to do are calculated from a diff of current infra and backend state
     # Is read on the very early stage, so using variables are not allowed
     backend "s3" {
-        key = "personalWebsite_WebSiteBucket/state.tfstate"
-        dynamodb_table = "personalWebsite_deploy_lock"
+        key = "Website_WebSiteBucket/state.tfstate"
     }
 }

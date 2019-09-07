@@ -15,25 +15,22 @@ terraform {
     # The actions to do are calculated from a diff of current infra and backend state
     # Is read on the very early stage, so using variables are not allowed
     backend "s3" {
-        bucket = "jerryhire8test1-terraform-state-storage-bucket"
-        key = "personalWebsite_Certificate/state.tfstate"
-        region = "eu-central-1"
-        dynamodb_table = "personalWebsite_deploy_lock"
+        key = "Website_Certificate/state.tfstate"
     }
 }
 
 
 resource "aws_acm_certificate" "web_site_certificate" {
-  domain_name       = "${var.project_name}"
+  domain_name       = "${var.website_name}"
   validation_method = "DNS"
 
   provider = "aws.certificateEligibleRegion"
 
-  subject_alternative_names = ["${var.project_name}", "www.${var.project_name}"]
+  subject_alternative_names = ["${var.website_name}", "www.${var.website_name}"]
 }
 
 data "aws_route53_zone" "web_site_zone" {
-  name         = "${var.project_name}"
+  name         = "${var.website_name}"
   private_zone = false
 }
 
