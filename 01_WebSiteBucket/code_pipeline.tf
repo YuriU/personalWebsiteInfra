@@ -85,9 +85,9 @@ resource "aws_codepipeline" "codepipeline" {
       output_artifacts = ["source_output"]
 
       configuration = {
-        Owner  = "YuriU"
-        Repo   = "personalWebsite"
-        Branch = "master"
+        Owner  = "${var.codepipeline_github_repository_owner}"
+        Repo   = "${var.codepipeline_github_repository}"
+        Branch = "${var.codepipeline_github_repository_branch}"
         OAuthToken = "${var.codepipeline_github_token}"
       }
     }
