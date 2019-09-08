@@ -1,6 +1,6 @@
 # personalWebsiteInfra
-AWS infrastructure for personal website
-Including static website hosting Route53 setting and code pipeline
+AWS infrastructure for personal website based on AWS S3 static website hosting see https://aws.amazon.com/getting-started/projects/host-static-website
+Also it is empowered by Codepipeline to not setup website source manually
 
 The main idea was to make reusable AWS infrastructure able to launch static website
 During working on the script I faced the issue with SSL certificates validation which requires manual processing
@@ -20,8 +20,26 @@ Here NSs must be set to your domain registrar before you proceed
 
 Maybe it is not the best brake down for the systems where hosted zones and certificates are already set up, but for small websites it can be the most conveniant way
 
+To make it reusable I made common variable and configuration files
+    - backend_config.tfvars - Contains all the parameters of S3 backend
+    - terraform.tfvars - Contains all the parameters of the website setup
+
+To install the website, you need to review and update both backend_config.tfvars and terraform.tfvars and then enter to each directory, starting from 01_WebSiteBucket
+
+and enter:
+
+    terraform init -backend-config="..\backend_config.tfvars"
+
+        To configure terraform backend and then
+
+    terraform apply -var-file="..\terraform.tfvars"
+
+        To apply the setup
 
 
-terraform init -backend-config="..\backend_config.tfvars"
+    The modules dependencies are following:
 
-terraform apply -var-file="..\terraform.tfvars"
+    01_WebSiteBucket is independent, can be applied at any moment
+    02_Zone is independent
+    03_Certificate depends on 02_Zone, because hosted zone must be created prior to certificate validation
+    04_ContentDistribution depends on 01_WebSiteBucket, 02_Zone and 03_Certificate
