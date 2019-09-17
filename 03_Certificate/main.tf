@@ -26,7 +26,11 @@ resource "aws_acm_certificate" "web_site_certificate" {
 
   provider = "aws.certificateEligibleRegion"
 
-  subject_alternative_names = ["${var.website_name}", "www.${var.website_name}"]
+  subject_alternative_names = ["${var.website_name}", "www.${var.website_name}", "*.${var.website_name}"]
+
+  lifecycle {
+    create_before_destroy = true
+  }
 }
 
 data "aws_route53_zone" "web_site_zone" {
