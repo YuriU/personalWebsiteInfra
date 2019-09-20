@@ -28,11 +28,11 @@ To install the website, you need to review and update both backend_config.tfvars
 
 and enter:
 
-    terraform init -backend-config="..\backend_config.tfvars"
+    terraform init -backend-config="../backend_config.tfvars"
 
         To configure terraform backend and then
 
-    terraform apply -var-file="..\terraform.tfvars"
+    terraform apply -var-file="../terraform.tfvars"
 
         To apply the setup
 
